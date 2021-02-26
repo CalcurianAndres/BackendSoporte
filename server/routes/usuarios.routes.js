@@ -131,8 +131,16 @@ app.delete('/api/usuario/:id', [verificarToken, verificar_Role], (req, res)=>{
 app.get('/api/perfil/:id', verificarToken, (req, res) => {
 
     let _id = req.params.id;
+    let desde = req.query.desde || 0;
+    desde = Number(desde);
 
-    Ticket.find({usuario:_id}, (err,Total)=>{
+    let limite = req.query.limite || 5
+    limite = Number(limite);
+
+    Ticket.find({usuario:_id})
+        .skip(desde)
+        .limit(limite)
+        .exec((err,Total)=>{
 
         if( err ){
             return res.status(400).json({

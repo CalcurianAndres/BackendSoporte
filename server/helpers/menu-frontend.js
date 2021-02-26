@@ -6,13 +6,13 @@ const getMenu = (role = 'USER_ROLE') => {
           icono:'fas fa-user',
           submenu: [
             {
-              titulo:'Ver perfil',
-              url:'profile',
+              titulo:'Perfil',
+              url:'perfil',
               icono: 'far fa-id-card'
             },
             {
-              titulo:'Cambiar contraseña',
-              url:'cambiar-password',
+              titulo:'Configuración',
+              url:'configuracion',
               icono: 'fas fa-user-lock'
             }
           ]
@@ -45,7 +45,7 @@ const getMenu = (role = 'USER_ROLE') => {
                 icono: 'fas fa-users'
               },
               {
-                titulo:'Crear usuario',
+                titulo:'Nuevo usuario',
                 url:'nuevo-usuario',
                 icono: 'fas fa-user-plus'
               }

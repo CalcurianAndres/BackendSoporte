@@ -2,11 +2,13 @@ const express = require('express');
 var exec = require('child_process').exec;
 
 const Ticket = require('../database/models/ticket.model');
+const Usuario = require('../database/models/usuarios.model');
 const Comentario = require('../database/models/comentarios.model');
 const Notificacion = require('../database/models/notificaciones.model');
 
 const { verificarToken, verificar_Role } = require('../auth/autenticacion');
-const { enviarEmail } = require('../middlewares/email');
+const { emailNuevo } = require('../middlewares/emails/nuevo.email');
+const { emailModificacion } = require('../middlewares/emails/modificacion.email');
 
 
 const app = express();
@@ -99,7 +101,7 @@ app.post('/api/ticket', verificarToken, (req, res) => {
             });
         }
 
-        enviarEmail(ticketDB.titulo, req.usuario.Correo);
+        emailNuevo(ticketDB.titulo, req.usuario.Correo, req.usuario.Nombre, req.usuario.Apellido, req.usuario.AnyDesk,req.usuario.Sede,ticketDB.departamento);
 
         res.json({
             ok:true,
@@ -141,6 +143,31 @@ app.put('/api/ticket/:id', [verificarToken, verificar_Role], (req, res) => {
         }else{
             return res.json(ticketDB)
         }
+
+        // ENVIAR CORREOS
+        const id_user = ticketDB.usuario[0];
+
+        Usuario.findById(id_user, (err, DBuser)=>{
+            if( err ){
+                return res.status(401).json({
+                    ok:false,
+                    err
+                });
+            }
+
+            if(!DBuser){
+                return res.status(400).json({
+                    ok:false,
+                    err:{
+                        message:'usuario no encontrado'
+                    }
+                });
+            }
+            emailModificacion(DBuser.Correo, req.usuario.Nombre, req.usuario.Apellido, req.body.tipo, ticketDB.titulo, req.body.mensaje)
+
+        })
+
+        // FIN DE ENVIAR CORREOS
 
         const Noti = ticketDB.notificaciones;
         if(Noti.length <= 0){
@@ -211,7 +238,7 @@ app.post('/api/ticket/:id', async (req,res)=>{
 
     let id = req.params.id;
     let body = req.body;
-
+    
     Ticket.findById(id, (err, ticket)=>{
         if( err ){
             return res.status(401).json({
@@ -266,7 +293,6 @@ app.post('/api/ticket/:id', async (req,res)=>{
             })
         }
     });
-
 });
 
 // [verificarToken, verificar_Role]

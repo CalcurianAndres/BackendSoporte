@@ -6,6 +6,10 @@ let rolesValidos = {
     message: '{VALUE} no es un rol válido'
 }
 
+let sedesValidas = {
+    values: ['Orion','CDT','Mystic Brands']
+}
+
 let Schema = mongoose.Schema;
 
 let usuariosSchema = new Schema({
@@ -46,6 +50,11 @@ let usuariosSchema = new Schema({
     Departamento:{
         type:String,
         default:'soporte'
+    },
+    Sede:{
+        type:String,
+        default:'Orion',
+        enum:sedesValidas
     }
 
 });
