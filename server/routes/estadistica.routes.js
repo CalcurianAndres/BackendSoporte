@@ -52,7 +52,16 @@ app.get('/api/estadistica', (req, res)=>{
 });
 
 app.get('/api/reporte', (req, res)=>{
-    Ticket.find({})
+
+    let desde = req.query.desde || '';
+    let hasta = req.query.hasta || '';
+
+    const fechaInicio = desde;
+
+    const fechaInicial = hasta;
+    const fechaFinal = fechaInicial.substring(0,8).concat(Number(fechaInicial.substring(8)) + 1);
+
+    Ticket.find({$and: [{fecha: {$gte: new Date(fechaInicio)}},{fecha: {$lt: new Date(fechaFinal)}}]})
             .populate('usuario', 'Nombre Apellido')
             .exec((err, ticketsDB)=>{
         if( err ){
