@@ -58,11 +58,11 @@ function nuevoProfit(titulo, nombre, apellido, any,sede){
     });
     let tituloCorreo = 'Nuevo ticket creado!'
     var mailOptions = {
-        from: '"Soporte Técnico (thermo)" <thermo.soporte.group@gmail.com>',
+        from: '"Soporte Técnico" <thermo.soporte.group@gmail.com>',
         to: "soporte.mara.ticket@gmail.com",
         subject: `Nuevo ticket - ${titulo}`,
         html:`${header(tituloCorreo)}
-                Se generó un nuevo ticket por ${nombre} ${apellido} (${sede}), con el titulo ${titulo}
+                Se generó un nuevo ticket por ${nombre} ${apellido}, con el titulo ${titulo}
                 <br>
                 el AnyDesk del contacto es: <strong>${any}</strong>
             ${footer}`
@@ -88,11 +88,11 @@ function nuevoSoporte(titulo, nombre, apellido, any,sede){
     });
     let tituloCorreo = 'Nuevo ticket creado!'
     var mailOptions = {
-        from: '"Soporte Técnico (thermo)" <thermo.soporte.group@gmail.com>',
+        from: '"Soporte Técnico (Purissima)" <thermo.soporte.group@gmail.com>',
         to: "calcurianandres@gmail.com, jsotin@hotmail.com",
         subject: `Nuevo ticket - ${titulo}`,
         html:`${header(tituloCorreo)}
-                Se generó un nuevo ticket por ${nombre} ${apellido} (${sede}), con el titulo ${titulo}
+                Se generó un nuevo ticket por ${nombre} ${apellido} (Purissima), con el titulo '${titulo}'
                 <br>
                 el AnyDesk del contacto es: <strong>${any}</strong>
             ${footer}`

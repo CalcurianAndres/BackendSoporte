@@ -51,5 +51,22 @@ app.get('/api/estadistica', (req, res)=>{
 
 });
 
+app.get('/api/reporte', (req, res)=>{
+    Ticket.find({})
+            .populate('usuario', 'Nombre Apellido')
+            .exec((err, ticketsDB)=>{
+        if( err ){
+            return res.status(400).json({
+                ok:false,
+                err
+            });
+        }
+
+        res.json({
+            tickets:ticketsDB
+        })
+    });
+})
+
 
 module.exports = app;

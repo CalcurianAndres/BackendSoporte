@@ -44,6 +44,26 @@ app.get('/api/usuarios', verificarToken, (req, res)=>{
 
 });
 
+app.get('/api/usuario/:id', verificarToken, (req, res)=>{
+
+    const id = req.params.id;
+
+    Usuario.findOne({_id:id})
+            .exec((err, usuario)=>{
+                if ( err ){
+                    return res.status(400).json({
+                        ok:false,
+                        err
+                    });
+                }
+
+                res.json({
+                    ok:true,
+                    usuario,
+                }); 
+            });
+});
+
 app.post('/api/usuario', [verificarToken, verificar_Role], (req,res)=>{
 
     let body = req.body;
